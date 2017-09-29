@@ -1,6 +1,7 @@
 ﻿# Geat rid of the awful Microsoft bloatware! Also consider turning off Windows store automatic updating, or outright disabling that piece of trash.
 # This list of apps was pulled from a base Dell Optiplex 7050 Windows 10 Pro image, and a straight-from-Microsoft Windows 10 Pro install (not an OEM image).
 # Add or remove apps as needed from the $apps array.
+# This will only remove the apps for the current user and will not prevent provisioning of these apps back to new users. Add this feature.
 
 $apps = @(
 "KeeperSecurityInc.Keeper","89006A2E.AutodeskSketchBook","CAF9E577.Plex","Microsoft.XboxGameCallableUI","Microsoft.XboxSpeechToTextOverlay","Microsoft.XboxIdentityProvider",
@@ -12,6 +13,11 @@ $apps = @(
 )
 
 foreach ($app in $apps) {Get-AppxPackage $app | Remove-AppxPackage}
+
+$provisioned = @(Get-AppxProvisionedPackage -online | select PackageName)
+
+# Nuclear option for de-provisioning, need to test.
+# Get-AppXProvisionedPackage -Online | Remove-AppxProvisionedPackage -Online
 
 # Original list from Reddit which inspired this below. Most of these do not work, as they don't have the full package name, but consider getting the true names
 # so it can be utilised
